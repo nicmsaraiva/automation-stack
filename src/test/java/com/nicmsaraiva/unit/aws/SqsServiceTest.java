@@ -36,7 +36,7 @@ public class SqsServiceTest {
     }
 
     @BeforeEach
-    public void setUpTest() {
+    public void setupTest() {
         queuesToDelete = new ArrayList<>();
     }
 
