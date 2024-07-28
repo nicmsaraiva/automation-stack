@@ -10,17 +10,20 @@ public class SqsService {
         this.sqs = sqs;
     }
 
-    public void createSqsQueue(String queueName) {
+    public String createSqsQueue(String queueName) {
         CreateQueueRequest createQueueRequest = new CreateQueueRequest(queueName)
                 .addAttributesEntry("DelaySeconds", "60")
                 .addAttributesEntry("MessageRetentionPeriod", "86400");
         try {
-            sqs.createQueue(createQueueRequest);
+            CreateQueueResult createQueueResult = createQueueResult = sqs.createQueue(createQueueRequest);
+            return createQueueResult.getQueueUrl();
         } catch (AmazonSQSException exception) {
             if (!exception.getErrorCode().equals("QueueAlreadyExists")) {
                 throw exception;
             }
         }
+        // Already exists
+        return sqs.getQueueUrl(queueName).getQueueUrl();
     }
 
     public ListQueuesResult listQueues() {

@@ -1,4 +1,4 @@
-package com.nicmsaraiva.unit.aws;
+package com.nicmsaraiva.integration;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class SqsServiceTest {
+public class SqsIntegrationTest {
     private static final String URL = "http://localhost:4566/000000000000/";
     private static SqsService sqsService;
     private static AmazonSQS sqs;
