@@ -50,4 +50,12 @@ public class SqsService {
             throw exception;
         }
     }
+
+    public void sendMessageToQueue(String message, String queueUrl) {
+        SendMessageRequest sendMessageRequest = new SendMessageRequest()
+                .withQueueUrl(queueUrl)
+                .withMessageBody(message)
+                .withDelaySeconds(5);
+        sqs.sendMessage(sendMessageRequest);
+    }
 }

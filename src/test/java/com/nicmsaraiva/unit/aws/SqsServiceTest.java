@@ -3,14 +3,10 @@ package com.nicmsaraiva.unit.aws;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.amazonaws.services.sqs.model.AmazonSQSException;
-import com.amazonaws.services.sqs.model.CreateQueueRequest;
-import com.amazonaws.services.sqs.model.ListQueuesResult;
+import com.amazonaws.services.sqs.model.*;
 import com.nicmsaraiva.utils.aws.SqsService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 import static org.mockito.ArgumentMatchers.any;
 
 
@@ -18,11 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class SqsServiceTest {
-    private static final String URL = "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/";
+    private static final String URL = "http://localhost:4566/000000000000/";
     private static SqsService sqsService;
     private static AmazonSQS sqs;
     private List<String> queuesToDelete;
@@ -108,5 +103,22 @@ public class SqsServiceTest {
         doThrow(exception).when(mockSqs).createQueue(any(CreateQueueRequest.class));
 
         assertDoesNotThrow(() -> mockSqsService.createSqsQueue(queueName));
+    }
+
+    @Test
+    public void testSendMessageToQueue() throws InterruptedException {
+        String queueName = "test-queue-send-message";
+        String sqsMessage = "Test SQS Message";
+        createQueue(queueName);
+        sqsService.sendMessageToQueue(sqsMessage, URL + queueName);
+
+        // Need delay to send message in queue
+        Thread.sleep(6000);
+
+        ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(URL + queueName);
+        List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+
+        assertEquals(1, messages.size(), "Expected one message in the queue");
+        assertEquals(sqsMessage, messages.get(0).getBody(), "Message body should match the sent message");
     }
 }

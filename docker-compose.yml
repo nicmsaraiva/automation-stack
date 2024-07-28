@@ -3,7 +3,6 @@ services:
     image: localstack/localstack
     ports:
       - "4566:4566"
-      - "4571:4571"
     environment:
-      - SERVICES=sqs
+      - SERVICES=sqs,lambda
       - DEBUG=1
