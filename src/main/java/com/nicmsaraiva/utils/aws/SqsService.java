@@ -1,17 +1,17 @@
 package com.nicmsaraiva.utils.aws;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.AmazonSQSException;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.ListQueuesRequest;
 import com.amazonaws.services.sqs.model.ListQueuesResult;
 
 public class SqsService {
-    AmazonSQS sqs = AmazonSQSClientBuilder.standard()
-            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
-            .build();
+    private final AmazonSQS sqs;
+
+    public SqsService(AmazonSQS sqs) {
+        this.sqs = sqs;
+    }
 
     public void createSqsQueue(String queueName) {
         CreateQueueRequest createQueueRequest = new CreateQueueRequest(queueName)
