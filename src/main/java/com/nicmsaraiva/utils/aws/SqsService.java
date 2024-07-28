@@ -1,10 +1,7 @@
 package com.nicmsaraiva.utils.aws;
 
 import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.model.AmazonSQSException;
-import com.amazonaws.services.sqs.model.CreateQueueRequest;
-import com.amazonaws.services.sqs.model.ListQueuesRequest;
-import com.amazonaws.services.sqs.model.ListQueuesResult;
+import com.amazonaws.services.sqs.model.*;
 
 public class SqsService {
     private final AmazonSQS sqs;
@@ -26,19 +23,31 @@ public class SqsService {
         }
     }
 
-    public void listQueues() {
+    public ListQueuesResult listQueues() {
         ListQueuesResult listQueuesResult = sqs.listQueues();
         System.out.println("Your SQS Queue URLs:");
         for (String url : listQueuesResult.getQueueUrls()) {
             System.out.println("URL: " + url);
         }
+        return listQueuesResult;
     }
 
-    public void listQueuePrefix(String prefix){
+    public ListQueuesResult listQueuePrefix(String prefix){
         ListQueuesResult listQueuesResult = sqs.listQueues(new ListQueuesRequest(prefix));
         System.out.println("Queue URLs with prefix: " + prefix);
         for (String url : listQueuesResult.getQueueUrls()) {
             System.out.println("URL: " + url);
+        }
+        return listQueuesResult;
+    }
+
+    public void deleteQueueByUrl(String queueUrl) {
+        try {
+            sqs.deleteQueue(new DeleteQueueRequest(queueUrl));
+            System.out.println("Queue deleted: " + queueUrl);
+        } catch (AmazonSQSException exception) {
+            System.err.println("Error deleting queue: " + exception.getMessage());
+            throw exception;
         }
     }
 }
