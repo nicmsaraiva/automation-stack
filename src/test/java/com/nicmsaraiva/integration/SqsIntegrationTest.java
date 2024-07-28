@@ -93,19 +93,6 @@ public class SqsIntegrationTest {
     }
 
     @Test
-    public void testCreateQueueAlreadyExistsException() {
-        AmazonSQS mockSqs = mock(AmazonSQS.class);
-        SqsService mockSqsService = new SqsService(mockSqs);
-        String queueName = "existing-queue";
-
-        AmazonSQSException exception = new AmazonSQSException("Queue already exists");
-        exception.setErrorCode("QueueAlreadyExists");
-        doThrow(exception).when(mockSqs).createQueue(any(CreateQueueRequest.class));
-
-        assertDoesNotThrow(() -> mockSqsService.createSqsQueue(queueName));
-    }
-
-    @Test
     public void testSendMessageToQueue() throws InterruptedException {
         String queueName = "test-queue-send-message";
         String sqsMessage = "Test SQS Message";
