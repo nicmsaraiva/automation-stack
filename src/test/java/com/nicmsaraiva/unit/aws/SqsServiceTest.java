@@ -3,18 +3,23 @@ package com.nicmsaraiva.unit.aws;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.AmazonSQSException;
+import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.ListQueuesResult;
 import com.nicmsaraiva.utils.aws.SqsService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 public class SqsServiceTest {
     private static final String URL = "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/";
@@ -90,5 +95,18 @@ public class SqsServiceTest {
 
         ListQueuesResult listQueuesResult = sqsService.listQueuePrefix("incorrect-prefix");
         assertEquals(0, listQueuesResult.getQueueUrls().size(), "List queue result with incorrect prefix is not 0");
+    }
+
+    @Test
+    public void testCreateQueueAlreadyExistsException() {
+        AmazonSQS mockSqs = mock(AmazonSQS.class);
+        SqsService mockSqsService = new SqsService(mockSqs);
+        String queueName = "existing-queue";
+
+        AmazonSQSException exception = new AmazonSQSException("Queue already exists");
+        exception.setErrorCode("QueueAlreadyExists");
+        doThrow(exception).when(mockSqs).createQueue(any(CreateQueueRequest.class));
+
+        assertDoesNotThrow(() -> mockSqsService.createSqsQueue(queueName));
     }
 }
