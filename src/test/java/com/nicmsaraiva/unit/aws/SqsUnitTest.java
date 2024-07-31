@@ -7,6 +7,7 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.CreateQueueResult;
 import com.nicmsaraiva.utils.aws.SqsService;
+import com.nicmsaraiva.utils.common.CredentialsUtils;
 import org.junit.jupiter.api.Test;
 
 public class SqsUnitTest {
@@ -15,7 +16,7 @@ public class SqsUnitTest {
     public void testCreateSqsQueue() {
         AmazonSQS mockSqs = mock(AmazonSQS.class);
         SqsService sqsService = new SqsService(mockSqs);
-        String expectedQueueUrl = "http://localhost:4566/000000000000/test-queue";
+        String expectedQueueUrl = CredentialsUtils.getUrl("000000000000") + "test-queue";
         CreateQueueResult createQueueResult = new CreateQueueResult().withQueueUrl(expectedQueueUrl);
 
         when(mockSqs.createQueue(any(CreateQueueRequest.class))).thenReturn(createQueueResult);

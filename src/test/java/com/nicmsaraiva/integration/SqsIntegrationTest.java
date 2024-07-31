@@ -1,32 +1,26 @@
 package com.nicmsaraiva.integration;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.*;
 import com.nicmsaraiva.utils.aws.SqsService;
+import com.nicmsaraiva.utils.common.CredentialsUtils;
 import org.junit.jupiter.api.*;
-
-import static org.mockito.ArgumentMatchers.any;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class SqsIntegrationTest {
-    private static final String URL = "http://localhost:4566/000000000000/";
+    private static String URL;
     private static SqsService sqsService;
     private static AmazonSQS sqs;
     private List<String> queuesToDelete;
 
     @BeforeAll
     public static void setup() {
-        sqs = AmazonSQSClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
-                .build();
+        sqs = CredentialsUtils.createSqsClient();
+        URL = CredentialsUtils.getUrl("000000000000");
         sqsService = new SqsService(sqs);
     }
 

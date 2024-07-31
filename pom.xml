@@ -44,6 +44,11 @@
       <version>1.11.1000</version>
     </dependency>
     <dependency>
+      <groupId>io.github.cdimascio</groupId>
+      <artifactId>java-dotenv</artifactId>
+      <version>5.2.2</version>
+    </dependency>
+    <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-lambda</artifactId>
       <version>1.11.1000</version>
@@ -52,22 +57,6 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>3.12.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.kafka</groupId>
-      <artifactId>kafka-clients</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.kafka</groupId>
-      <artifactId>spring-kafka</artifactId>
-      <version>2.3.0.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.testcontainers</groupId>
-      <artifactId>kafka</artifactId>
-      <version>1.15.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
