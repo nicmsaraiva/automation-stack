@@ -1,10 +1,10 @@
-# teststack
+# automation-stack
 
 A comprehensive stack of tests for various services, including AWS Services, using Java.
 
 ### Overview
 
-The `teststack` project provides a set of tests to ensure the correct functionality of different services. This includes testing AWS Services functionalities locally using LocalStack. The tests are written in Java and use JUnit for assertions and Mockito for mocking.
+The `automation-stack` project provides a set of tests to ensure the correct functionality of different services. This includes testing AWS Services functionalities locally using LocalStack. The tests are written in Java and use JUnit for assertions and Mockito for mocking.
 
 ### Prerequisites
 

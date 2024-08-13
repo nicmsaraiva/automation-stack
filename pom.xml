@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.nicmsaraiva</groupId>
-  <artifactId>teststack</artifactId>
+  <artifactId>automation-stack</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>teststack</name>
+  <name>automation-stack</name>
   <url>http://maven.apache.org</url>
 
   <properties>
