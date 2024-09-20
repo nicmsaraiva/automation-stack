@@ -65,5 +65,5 @@ public void testCreateQueueAlreadyExistsException() {
 ### Clone the Repository
 
 ```sh
-git clone https://github.com/nicmsaraiva/teststack.git
-cd teststack
+git clone https://github.com/nicmsaraiva/automation-stack.git
+cd automation-stack
